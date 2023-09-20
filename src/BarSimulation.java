@@ -1,34 +1,33 @@
 import java.util.concurrent.Semaphore;
+import java.util.Scanner;
 
 class Bar {
-    private Semaphore chairs;
-    private Semaphore allChairsEmpty;
-    private int clientCount = 0;
+    private final Semaphore chairs;
+    final private Semaphore mutex = new Semaphore(1);
+    private int countClient = 0;
+
+    private final int limitClients;
 
     public Bar(int numChairs) {
         chairs = new Semaphore(numChairs, true);
-        allChairsEmpty = new Semaphore(0, true);
+        limitClients = numChairs;
     }
 
     public void enter(int clientId) throws InterruptedException {
-        if (clientCount < chairs.availablePermits()) {
-            chairs.acquire();
-            clientCount++;
-            System.out.println("Client " + clientId + " entered the bar and occupied a chair. (Total clients: " + clientCount + ")");
-        } else {
-            allChairsEmpty.acquire(); // Wait until all chairs are empty
-            chairs.acquire();
-            clientCount++;
-            System.out.println("Client " + clientId + " entered the bar and occupied a chair. (Total clients: " + clientCount + ")");
-        }
+        chairs.acquire();
+        System.out.println("Client " + clientId + " entered the bar and occupied a chair.");
+        mutex.acquire();
+        countClient++;
+        mutex.release();
     }
 
-    public void leave(int clientId) {
-        chairs.release();
-        clientCount--;
-        System.out.println("Client " + clientId + " left the bar and vacated a chair. (Total clients: " + clientCount + ")");
-        if (clientCount == 0) {
-            allChairsEmpty.release(chairs.availablePermits()); // Signal all chairs are empty
+    public void leave(int clientId) throws InterruptedException {
+        System.out.println("Client " + clientId + " left the bar and vacated a chair.");
+        mutex.acquire();
+        countClient--;
+        mutex.release();
+        if (countClient == 0) {
+            chairs.release(limitClients);
         }
     }
 }
@@ -45,25 +44,29 @@ class Client extends Thread {
 
     @Override
     public void run() {
-        try {
-            bar.enter(clientId);
-            // Simulate some time in the bar
-            Thread.sleep(2000);
-            bar.leave(clientId);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (true) {
+            try {
+                bar.enter(clientId);
+                Thread.sleep(4000);
+                bar.leave(clientId);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
 
-public class BarSimulation {
+class BarSimulation {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         int numClients, numChairs;
 
-        // Get user input for the number of clients and chairs
-        // You can use Scanner to get user input.
-        numClients = 5; // Change this to the desired number of clients
-        numChairs = 3;  // Change this to the desired number of chairs
+        System.out.print("Digite o número total de clientes: ");
+        numClients = scanner.nextInt();
+
+        System.out.print("Digite o número de cadeiras no bar (N): ");
+        numChairs = scanner.nextInt();
+
 
         Bar bar = new Bar(numChairs);
 

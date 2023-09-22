@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #122C33; -fx-pref-width: 1280; -fx-pref-height: 720;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #122C33; -fx-pref-width: 1280; -fx-pref-height: 720;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.little_pub.HelloController">
    <children>
-      <Pane layoutX="426.0" layoutY="60.0" prefHeight="684.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 400; -fx-pref-height: 600;" />
-      <Pane layoutX="849.0" layoutY="60.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 400; -fx-pref-height: 600;">
-         <children>
-            <VBox layoutX="4.0" layoutY="52.0" prefHeight="548.0" prefWidth="392.0">
-               <children>
-                  <ImageView fitHeight="73.0" fitWidth="392.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="73.0" fitWidth="392.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="73.0" fitWidth="392.0" layoutX="10.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="73.0" fitWidth="392.0" layoutX="10.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="73.0" fitWidth="392.0" layoutX="10.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="73.0" fitWidth="392.0" layoutX="10.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="73.0" fitWidth="392.0" layoutX="10.0" layoutY="375.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </VBox>
-         </children>
-      </Pane>
+      <Pane layoutX="617.0" layoutY="83.0" prefHeight="684.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;" />
+      <Pane layoutX="950.0" layoutY="83.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;" />
+      <Label layoutX="733.0" layoutY="36.0" text="CASA" textFill="WHITE">
+         <font>
+            <Font name="Broadway" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="1073.0" layoutY="42.0" text="BAR" textFill="WHITE">
+         <font>
+            <Font name="Broadway" size="24.0" />
+         </font>
+      </Label>
+      <ListView layoutX="618.0" layoutY="577.0" prefHeight="129.0" prefWidth="634.0" />
+      <Label layoutX="905.0" layoutY="539.0" text="FILA" textFill="WHITE">
+         <font>
+            <Font name="Broadway" size="24.0" />
+         </font>
+      </Label>
+      <TextField layoutX="35.0" layoutY="38.0" promptText="Nome do cliente" />
+      <TextField layoutX="198.0" layoutY="38.0" promptText="Tempo no Bar" />
+      <TextField layoutX="362.0" layoutY="38.0" promptText="Tempo em Casa" />
+      <Button layoutX="546.0" layoutY="38.0" mnemonicParsing="false" onAction="#onAddClientButtonClick" text="Adicionar cliente" />
    </children>
 </Pane>

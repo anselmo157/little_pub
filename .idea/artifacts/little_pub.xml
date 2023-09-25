@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="little_pub">
+    <output-path>$PROJECT_DIR$/out/artifacts/little_pub</output-path>
+    <root id="archive" name="little_pub.jar">
+      <element id="archive" name="little_pub.jar">
+        <element id="module-output" name="little_pub" />
+      </element>
+    </root>
+  </artifact>
+</component>

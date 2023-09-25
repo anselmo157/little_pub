@@ -1,28 +1,44 @@
 package com.example.little_pub;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.Scanner;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class HelloController {
-    @FXML
-    private Label welcomeText;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private TextField chairsField;
+
+    @FXML
+    private Button addBar;
+
+    int chairs;
+
+    @FXML
+    protected void onConfigureBarClick() {
+        try {
+            chairs = Integer.parseInt(chairsField.getText());
+            System.out.println(chairs);
+            chairsField.setEditable(false);
+            chairsField.setMouseTransparent(true);
+            chairsField.setFocusTraversable(false);
+            addBar.setText("Criou o Bar!");
+            addBar.setDisable(true);
+        } catch (NumberFormatException e) {
+            System.out.println("Entre com um valor numérico");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @FXML
-    protected void onConfigureBarCick() {
-        System.out.println("Criou o bar");
-    }
-
-    @FXML
-    protected void onAddClientButtonClick () {
+    protected void onAddClientButtonClick() {
         System.out.println("Deu bom");
     }
 }
@@ -93,7 +109,7 @@ class Client extends Thread {
                 bar.enter(id);
                 long timeLeaveBar = (System.currentTimeMillis() + tb * 1000L);
 
-                while(System.currentTimeMillis() < timeLeaveBar){
+                while (System.currentTimeMillis() < timeLeaveBar) {
                     execute_task();
                 }
 
@@ -103,7 +119,7 @@ class Client extends Thread {
 
                 System.out.println("Client " + id + " chegou em casa.");
 
-                while(System.currentTimeMillis() < timeLeaveHome){
+                while (System.currentTimeMillis() < timeLeaveHome) {
                     execute_task();
                 }
 

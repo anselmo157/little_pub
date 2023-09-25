@@ -91,22 +91,20 @@ class Client extends Thread {
         while (true) {
             try {
                 bar.enter(id);
-                int timeLeftBar = (LocalTime.now().getSecond() + tb);
-                if (timeLeftBar > 59) timeLeftBar = timeLeftBar - 60;
+                long timeLeaveBar = (System.currentTimeMillis() + tb * 1000L);
 
-                while(LocalTime.now().getSecond() != timeLeftBar){
-
+                while(System.currentTimeMillis() < timeLeaveBar){
+                    execute_task();
                 }
 
                 bar.leave(id);
 
-                int timeLeftHome = (LocalTime.now().getSecond() + tc);
-                if (timeLeftHome > 59) timeLeftHome = timeLeftHome - 60;
+                long timeLeaveHome = (System.currentTimeMillis() + tc * 1000L);
 
                 System.out.println("Client " + id + " chegou em casa.");
 
-                while(LocalTime.now().getSecond() != timeLeftHome){
-
+                while(System.currentTimeMillis() < timeLeaveHome){
+                    execute_task();
                 }
 
                 System.out.println("Client " + id + " Foi pu bar.");

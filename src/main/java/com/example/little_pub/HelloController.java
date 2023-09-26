@@ -81,14 +81,14 @@ class Bar {
 
     public void enter(String clientId) throws InterruptedException {
         chairs.acquire();
-        System.out.println("Client " + clientId + " entrou no bar e se sentou");
+        System.out.println("Cliente " + clientId + " entrou no bar e se sentou");
         mutex.acquire();
         countClient++;
         mutex.release();
     }
 
     public void leave(String clientId) throws InterruptedException {
-        System.out.println("Client " + clientId + " saiu do bar e foi para casa.");
+        System.out.println("Cliente " + clientId + " saiu do bar e foi para casa.");
         mutex.acquire();
         countClient--;
         mutex.release();
@@ -141,13 +141,12 @@ class Client extends Thread {
 
                 long timeLeaveHome = (System.currentTimeMillis() + tc * 1000L);
 
-                System.out.println("Client " + id + " chegou em casa.");
 
                 while (System.currentTimeMillis() < timeLeaveHome) {
                     execute_task();
                 }
 
-                System.out.println("Client " + id + " foi para o bar.");
+                System.out.println("Cliente " + id + " foi para o bar.");
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -13,12 +13,26 @@ import javafx.scene.control.TextField;
 public class HelloController {
 
     @FXML
+    private Button addBar;
+
+    @FXML
+    private Button addClient;
+
+    @FXML
     private TextField chairsField;
 
     @FXML
-    private Button addBar;
+    private TextField nameField;
+
+    @FXML
+    private TextField barTimeField;
+
+    @FXML
+    private TextField homeTimeField;
 
     int chairs;
+
+    Bar bar;
 
     @FXML
     protected void onConfigureBarClick() {
@@ -30,16 +44,26 @@ public class HelloController {
             chairsField.setFocusTraversable(false);
             addBar.setText("Criou o Bar!");
             addBar.setDisable(true);
+            bar = new Bar(chairs);
         } catch (NumberFormatException e) {
-            System.out.println("Entre com um valor numérico");
+            addBar.setText("Entre com um valor numérico");
+            System.out.println(bar);
         } catch (Exception e) {
-            System.out.println(e);
+            addBar.setText(e.getMessage());
         }
     }
 
     @FXML
-    protected void onAddClientButtonClick() {
-        System.out.println("Deu bom");
+    protected void onAddClientClick() {
+        if (bar != null) {
+            Thread clientThread = new Client(bar, nameField.getText(), Integer.parseInt(barTimeField.getText()), Integer.parseInt(homeTimeField.getText()));
+            clientThread.start();
+            nameField.setText("");
+            barTimeField.setText("");
+            homeTimeField.setText("");
+        } else {
+            addClient.setText("Crie um Bar");
+        }
     }
 }
 
@@ -57,14 +81,14 @@ class Bar {
 
     public void enter(String clientId) throws InterruptedException {
         chairs.acquire();
-        System.out.println("Client " + clientId + " entered the bar and occupied a chair.");
+        System.out.println("Client " + clientId + " entrou no bar e se sentou");
         mutex.acquire();
         countClient++;
         mutex.release();
     }
 
     public void leave(String clientId) throws InterruptedException {
-        System.out.println("Client " + clientId + " left the bar and vacated a chair.");
+        System.out.println("Client " + clientId + " saiu do bar e foi para casa.");
         mutex.acquire();
         countClient--;
         mutex.release();
@@ -123,53 +147,11 @@ class Client extends Thread {
                     execute_task();
                 }
 
-                System.out.println("Client " + id + " Foi pu bar.");
+                System.out.println("Client " + id + " foi para o bar.");
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-    }
-}
-
-class BarSimulation {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int numClients, numChairs;
-
-        System.out.print("Digite o número total de clientes: ");
-        numClients = scanner.nextInt();
-
-        System.out.print("Digite o número de cadeiras no bar (N): ");
-        numChairs = scanner.nextInt();
-
-        Bar bar = new Bar(numChairs);
-
-        ArrayList<String> nameList = new ArrayList<String>();
-        ArrayList<Integer> tbList = new ArrayList<Integer>();
-        ArrayList<Integer> tcList = new ArrayList<Integer>();
-
-        for (int i = 0; i < numClients; i++) {
-            String id;
-            int tb, tc;
-            System.out.print("Digite o nome do cliente: ");
-            id = scanner.next();
-
-            System.out.print("Digite o tempo no bar do cliente: ");
-            tb = scanner.nextInt();
-
-            System.out.print("Digite o tempo em casa do cliente: ");
-            tc = scanner.nextInt();
-
-            nameList.add(id);
-            tbList.add(tb);
-            tcList.add(tc);
-
-        }
-
-        for (int i = 0; i < numClients; i++) {
-            Thread clientThread = new Client(bar, nameList.get(i), tbList.get(i), tcList.get(i));
-            clientThread.start();
         }
     }
 }

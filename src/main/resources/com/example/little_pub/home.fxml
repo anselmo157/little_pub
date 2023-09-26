@@ -24,11 +24,11 @@
                 <Font name="Broadway" size="24.0" />
             </font>
         </Label>
-        <TextField layoutY="70.0" promptText="Nome do cliente" />
-        <TextField layoutX="164.0" layoutY="71.0" promptText="Tempo no Bar" />
-        <TextField layoutX="330.0" layoutY="71.0" promptText="Tempo em Casa" />
-        <Button layoutX="493.0" layoutY="71.0" mnemonicParsing="false" onAction="#onAddClientButtonClick" text="Adicionar cliente" />
         <TextField fx:id="chairsField" layoutX="164.0" layoutY="29.0" promptText="Número de cadeiras" />
+        <TextField fx:id="nameField" layoutY="70.0" promptText="Nome do cliente" />
+        <TextField fx:id="barTimeField" layoutX="164.0" layoutY="71.0" promptText="Tempo no Bar" />
+        <TextField fx:id="homeTimeField" layoutX="330.0" layoutY="71.0" promptText="Tempo em Casa" />
         <Button fx:id="addBar" layoutX="349.0" layoutY="27.0" mnemonicParsing="false" onAction="#onConfigureBarClick" text="Criar o Bar" />
+        <Button fx:id="addClient" layoutX="493.0" layoutY="71.0" mnemonicParsing="false" onAction="#onAddClientClick" text="Adicionar cliente" />
     </children>
 </Pane>

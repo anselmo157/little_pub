@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e5da0; -fx-pref-width: 1280; -fx-pref-height: 720;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.little_pub.HelloController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e5da0; -fx-pref-width: 1280; -fx-pref-height: 720;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.little_pub.Controller">
     <children>
         <Pane layoutX="950.0" layoutY="83.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;" />
         <Label layoutX="733.0" layoutY="36.0" text="CASA" textFill="#e21d1a">
@@ -23,12 +23,22 @@
                 <Font name="Broadway" size="24.0" />
             </font>
         </Label>
-        <TextField fx:id="chairsField" layoutX="164.0" layoutY="29.0" promptText="Número de cadeiras" />
-        <TextField fx:id="nameField" layoutY="70.0" promptText="Nome do cliente" />
-        <TextField fx:id="barTimeField" layoutX="164.0" layoutY="71.0" promptText="Tempo no Bar" />
-        <TextField fx:id="homeTimeField" layoutX="330.0" layoutY="71.0" promptText="Tempo em Casa" />
-        <Button fx:id="addBar" layoutX="349.0" layoutY="27.0" mnemonicParsing="false" onAction="#onConfigureBarClick" text="Criar o Bar" />
-        <Button fx:id="addClient" layoutX="493.0" layoutY="71.0" mnemonicParsing="false" onAction="#onAddClientClick" text="Adicionar cliente" />
+        <TextField fx:id="chairsField" layoutX="178.0" layoutY="30.0" promptText="Número de cadeiras" />
+        <TextField fx:id="nameField" layoutX="21.0" layoutY="71.0" promptText="Nome do cliente" />
+        <TextField fx:id="barTimeField" layoutX="178.0" layoutY="71.0" promptText="Tempo no Bar" />
+        <TextField fx:id="homeTimeField" layoutX="334.0" layoutY="71.0" promptText="Tempo em Casa" />
+        <Button fx:id="addBar" layoutX="334.0" layoutY="30.0" mnemonicParsing="false" onAction="#onConfigureBarClick" text="Criar o Bar" />
+        <Button fx:id="addClient" layoutX="491.0" layoutY="71.0" mnemonicParsing="false" onAction="#onAddClientClick" text="Adicionar cliente" />
         <Pane layoutX="617.0" layoutY="83.0" prefHeight="684.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;" />
+      <Label layoutX="283.0" layoutY="148.0" text="LOG" textFill="#e21d1a">
+         <font>
+            <Font name="Broadway" size="24.0" />
+         </font>
+      </Label>
+      <ScrollPane layoutX="56.0" layoutY="188.0" prefHeight="345.0" prefWidth="500.0">
+         <content>
+            <VBox fx:id="itemHolder" prefHeight="342.0" prefWidth="496.0" />
+         </content>
+      </ScrollPane>
     </children>
 </Pane>

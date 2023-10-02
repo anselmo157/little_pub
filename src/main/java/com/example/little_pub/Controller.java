@@ -1,16 +1,20 @@
 package com.example.little_pub;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.concurrent.Semaphore;
-import java.util.Scanner;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
-public class HelloController {
+public class Controller implements Initializable {
 
     @FXML
     private Button addBar;
@@ -30,9 +34,26 @@ public class HelloController {
     @FXML
     private TextField homeTimeField;
 
+    @FXML
+    private VBox itemHolder = null;
+
     int chairs;
 
     Bar bar;
+
+    @Override
+    public void initialize(URL url, ResourceBundle recourses) {
+        Node[] nodes = new Node[15];
+
+        for(int i = 0; i < nodes.length; i++){
+            try {
+                nodes[i] = FXMLLoader.load(getClass().getResource("item_log.fxml"));
+                itemHolder.getChildren().add(nodes[i]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @FXML
     protected void onConfigureBarClick() {

@@ -64,6 +64,7 @@ public class Controller implements Initializable {
             chairsField.setMouseTransparent(true);
             chairsField.setFocusTraversable(false);
             addBar.setText("Criou o Bar!");
+            addClient.setText("Criar cliente");
             addBar.setDisable(true);
             bar = new Bar(chairs);
         } catch (NumberFormatException e) {

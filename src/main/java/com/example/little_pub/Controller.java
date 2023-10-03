@@ -60,9 +60,9 @@ public class Controller implements Initializable {
             chairsField.setEditable(false);
             chairsField.setMouseTransparent(true);
             chairsField.setFocusTraversable(false);
-            log.getItems().add("Criou o bar do Laion");
+            log.getItems().add("Criou o bar do Laion!");
             addBar.setText("Criou o Bar!");
-            addClient.setText("Criar cliente");
+            addClient.setText("Adicionar cliente");
             addBar.setDisable(true);
             bar = new Bar(chairs);
         } catch (NumberFormatException e) {
@@ -189,7 +189,7 @@ public class Controller implements Initializable {
                         execute_task();
                     }
 
-                    System.out.println("Cliente " + id + " foi para o bar.");
+                    log.getItems().add("Cliente " + id + " foi para o bar.");
                     home.getItems().remove(id);
                     waiting.getItems().add(id);
                     waiting.refresh();

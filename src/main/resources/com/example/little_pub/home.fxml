@@ -13,22 +13,12 @@
          <children>
             <ListView fx:id="pub" editable="true" prefHeight="450.0" prefWidth="300.0" />
          </children></Pane>
-        <Label layoutX="733.0" layoutY="36.0" text="CASA" textFill="#e21d1a">
+        <Label layoutX="724.0" layoutY="35.0" text="CASA" textFill="#e21d1a">
             <font>
-                <Font name="Broadway" size="24.0" />
-            </font>
-        </Label>
-        <Label layoutX="1073.0" layoutY="42.0" text="BAR" textFill="#e21d1a">
-            <font>
-                <Font name="Broadway" size="24.0" />
+                <Font name="Monospaced Bold" size="36.0" />
             </font>
         </Label>
         <ListView fx:id="waiting" editable="true" layoutX="618.0" layoutY="577.0" orientation="HORIZONTAL" prefHeight="129.0" prefWidth="634.0" />
-        <Label layoutX="905.0" layoutY="539.0" text="FILA" textFill="#e21d1a">
-            <font>
-                <Font name="Broadway" size="24.0" />
-            </font>
-        </Label>
         <TextField fx:id="chairsField" layoutX="178.0" layoutY="30.0" promptText="Número de cadeiras" />
         <TextField fx:id="nameField" layoutX="21.0" layoutY="71.0" promptText="Nome do cliente" />
         <TextField fx:id="barTimeField" layoutX="178.0" layoutY="71.0" promptText="Tempo no Bar" />
@@ -39,11 +29,21 @@
          <children>
             <ListView fx:id="home" editable="true" prefHeight="450.0" prefWidth="300.0" />
          </children></Pane>
-      <Label layoutX="283.0" layoutY="148.0" text="LOG" textFill="#e21d1a">
+      <ListView fx:id="log" editable="true" layoutX="61.0" layoutY="180.0" prefHeight="350.0" prefWidth="498.0" />
+      <Label layoutX="1068.0" layoutY="35.0" text="BAR" textFill="#e21d1a">
          <font>
-            <Font name="Broadway" size="24.0" />
+            <Font name="Monospaced Bold" size="36.0" />
          </font>
       </Label>
-      <ListView fx:id="log" editable="true" layoutX="61.0" layoutY="180.0" prefHeight="350.0" prefWidth="498.0" />
+      <Label layoutX="892.0" layoutY="533.0" text="FILA" textFill="#e21d1a">
+         <font>
+            <Font name="Monospaced Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="278.0" layoutY="136.0" text="LOG" textFill="#e21d1a">
+         <font>
+            <Font name="Monospaced Bold" size="36.0" />
+         </font>
+      </Label>
     </children>
 </Pane>

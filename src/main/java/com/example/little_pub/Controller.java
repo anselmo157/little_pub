@@ -1,19 +1,17 @@
 package com.example.little_pub;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.Semaphore;
+
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.util.Callback;
+import javafx.scene.paint.Color;
 
 public class Controller implements Initializable {
 
@@ -103,7 +101,7 @@ public class Controller implements Initializable {
         }
 
         public void enter(String clientId) throws InterruptedException {
-            if(chairs.availablePermits() == 0) {
+            if (chairs.availablePermits() == 0) {
                 log.getItems().add("Cliente " + clientId + " foi para o bar e está esperando na fila.");
                 log.refresh();
                 waiting.getItems().add(clientId);
@@ -174,8 +172,24 @@ public class Controller implements Initializable {
 
                     long timeLeaveBar = (System.currentTimeMillis() + tb * 1000L);
 
-                    while (System.currentTimeMillis() < timeLeaveBar){
+                    while (System.currentTimeMillis() < timeLeaveBar) {
                         execute_task();
+                        pub.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+                            @Override
+                            public ListCell<String> call(ListView<String> listView) {
+                                return new ListCell<String>() {
+                                    @Override
+                                    protected void updateItem(String item, boolean empty) {
+                                        super.updateItem(item, empty);
+                                        setText(item);
+                                        if ((timeLeaveBar - System.currentTimeMillis()) % 2 == 0)
+                                            setTextFill(Color.RED);
+                                        else
+                                            setTextFill(Color.BLUE);
+                                    }
+                                };
+                            }
+                        });
                     }
 
                     bar.leave(id);
@@ -185,6 +199,23 @@ public class Controller implements Initializable {
 
                     while (System.currentTimeMillis() < timeLeaveHome) {
                         execute_task();
+
+                        home.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+                            @Override
+                            public ListCell<String> call(ListView<String> listView) {
+                                return new ListCell<String>() {
+                                    @Override
+                                    protected void updateItem(String item, boolean empty) {
+                                        super.updateItem(item, empty);
+                                        setText(item);
+                                        if ((timeLeaveBar - System.currentTimeMillis()) % 2 == 0)
+                                            setTextFill(Color.RED);
+                                        else
+                                            setTextFill(Color.BLUE);
+                                    }
+                                };
+                            }
+                        });
                     }
 
                     log.getItems().add("Cliente " + id + " foi para o bar.");

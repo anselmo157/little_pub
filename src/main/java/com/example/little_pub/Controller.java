@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.Semaphore;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -103,21 +102,23 @@ public class Controller implements Initializable {
             limitClients = numChairs;
         }
 
-        public void enter(String clientId) throws InterruptedException, IOException {
+        public void enter(String clientId) throws InterruptedException {
+            if(chairs.availablePermits() == 0) {
+                log.getItems().add("Cliente " + clientId + " foi para o bar e está esperando na fila.");
+                log.refresh();
+                waiting.getItems().add(clientId);
+                waiting.refresh();
+            }
             chairs.acquire();
-            log.getItems().addAll("Cliente " + clientId + " entrou no bar e se sentou");
+            log.getItems().addAll("Cliente " + clientId + " entrou no bar e se sentou.");
             log.refresh();
             mutex.acquire();
             waiting.getItems().remove(clientId);
             waiting.refresh();
-            pub.refresh();
-            home.refresh();
             countClient++;
             mutex.release();
             pub.getItems().add(clientId);
-            waiting.refresh();
             pub.refresh();
-            home.refresh();
         }
 
         public void leave(String clientId) throws InterruptedException {
@@ -125,14 +126,10 @@ public class Controller implements Initializable {
             log.refresh();
             mutex.acquire();
             pub.getItems().remove(clientId);
-            waiting.refresh();
             pub.refresh();
-            home.refresh();
             countClient--;
             mutex.release();
             home.getItems().add(clientId);
-            waiting.refresh();
-            pub.refresh();
             home.refresh();
             if (countClient == 0) {
                 chairs.release(limitClients);
@@ -141,7 +138,6 @@ public class Controller implements Initializable {
     }
 
     class Client extends Thread {
-        private static int nextClientId = 1;
         private Bar bar;
         public String id;
 
@@ -149,13 +145,15 @@ public class Controller implements Initializable {
 
         private int tc;
 
-        public String status;
+        public int time;
 
         public Client(Bar bar, String id, int tb, int tc) {
             this.bar = bar;
             this.id = id;
             this.tb = tb;
             this.tc = tc;
+
+            this.time = tb;
         }
 
         private static void execute_task() {
@@ -176,7 +174,7 @@ public class Controller implements Initializable {
 
                     long timeLeaveBar = (System.currentTimeMillis() + tb * 1000L);
 
-                    while (System.currentTimeMillis() < timeLeaveBar) {
+                    while (System.currentTimeMillis() < timeLeaveBar){
                         execute_task();
                     }
 
@@ -191,15 +189,9 @@ public class Controller implements Initializable {
 
                     log.getItems().add("Cliente " + id + " foi para o bar.");
                     home.getItems().remove(id);
-                    waiting.getItems().add(id);
-                    waiting.refresh();
-                    pub.refresh();
                     home.refresh();
-
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 }
             }
         }

@@ -10,7 +10,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -35,25 +37,20 @@ public class Controller implements Initializable {
     private TextField homeTimeField;
 
     @FXML
-    private VBox itemHolder = null;
+    public ListView<String> log;
+
+    @FXML
+    public ListView<String> home;
+
+    @FXML
+    public ListView<String> pub;
+
+    @FXML
+    public ListView<String> waiting;
 
     int chairs;
 
     Bar bar;
-
-    @Override
-    public void initialize(URL url, ResourceBundle recourses) {
-        Node[] nodes = new Node[15];
-
-        for(int i = 0; i < nodes.length; i++){
-            try {
-                nodes[i] = FXMLLoader.load(getClass().getResource("item_log.fxml"));
-                itemHolder.getChildren().add(nodes[i]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @FXML
     protected void onConfigureBarClick() {
@@ -63,6 +60,7 @@ public class Controller implements Initializable {
             chairsField.setEditable(false);
             chairsField.setMouseTransparent(true);
             chairsField.setFocusTraversable(false);
+            log.getItems().add("Criou o bar do Laion");
             addBar.setText("Criou o Bar!");
             addClient.setText("Criar cliente");
             addBar.setDisable(true);
@@ -87,92 +85,125 @@ public class Controller implements Initializable {
             addClient.setText("Crie um Bar");
         }
     }
-}
-
-class Bar {
-    private final Semaphore chairs;
-    final private Semaphore mutex = new Semaphore(1);
-    private int countClient = 0;
-
-    private final int limitClients;
-
-    public Bar(int numChairs) {
-        chairs = new Semaphore(numChairs, true);
-        limitClients = numChairs;
-    }
-
-    public void enter(String clientId) throws InterruptedException {
-        chairs.acquire();
-        System.out.println("Cliente " + clientId + " entrou no bar e se sentou");
-        mutex.acquire();
-        countClient++;
-        mutex.release();
-    }
-
-    public void leave(String clientId) throws InterruptedException {
-        System.out.println("Cliente " + clientId + " saiu do bar e foi para casa.");
-        mutex.acquire();
-        countClient--;
-        mutex.release();
-        if (countClient == 0) {
-            chairs.release(limitClients);
-        }
-    }
-}
-
-class Client extends Thread {
-    private static int nextClientId = 1;
-    private Bar bar;
-    public String id;
-
-    private int tb;
-
-    private int tc;
-
-    public String status;
-
-    public Client(Bar bar, String id, int tb, int tc) {
-        this.bar = bar;
-        this.id = id;
-        this.tb = tb;
-        this.tc = tc;
-    }
-
-    private static void execute_task() {
-        float Count = 0, s = 0;
-        for (int j = 0; j < 10000000; j++) {
-            for (int i = 0; i < 2000; i++) {
-                Count++;
-                s = s + Count;
-            }
-        }
-    }
 
     @Override
-    public void run() {
-        while (true) {
-            try {
-                bar.enter(id);
-                long timeLeaveBar = (System.currentTimeMillis() + tb * 1000L);
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        log.getItems().add("Aplicação inicializada!");
+    }
 
-                while (System.currentTimeMillis() < timeLeaveBar) {
-                    execute_task();
+    class Bar {
+        private final Semaphore chairs;
+        final private Semaphore mutex = new Semaphore(1);
+        private int countClient = 0;
+
+        private final int limitClients;
+
+        public Bar(int numChairs) {
+            chairs = new Semaphore(numChairs, true);
+            limitClients = numChairs;
+        }
+
+        public void enter(String clientId) throws InterruptedException, IOException {
+            chairs.acquire();
+            log.getItems().addAll("Cliente " + clientId + " entrou no bar e se sentou");
+            log.refresh();
+            mutex.acquire();
+            waiting.getItems().remove(clientId);
+            waiting.refresh();
+            pub.refresh();
+            home.refresh();
+            countClient++;
+            mutex.release();
+            pub.getItems().add(clientId);
+            waiting.refresh();
+            pub.refresh();
+            home.refresh();
+        }
+
+        public void leave(String clientId) throws InterruptedException {
+            log.getItems().addAll("Cliente " + clientId + " saiu do bar e foi para casa.");
+            log.refresh();
+            mutex.acquire();
+            pub.getItems().remove(clientId);
+            waiting.refresh();
+            pub.refresh();
+            home.refresh();
+            countClient--;
+            mutex.release();
+            home.getItems().add(clientId);
+            waiting.refresh();
+            pub.refresh();
+            home.refresh();
+            if (countClient == 0) {
+                chairs.release(limitClients);
+            }
+        }
+    }
+
+    class Client extends Thread {
+        private static int nextClientId = 1;
+        private Bar bar;
+        public String id;
+
+        private int tb;
+
+        private int tc;
+
+        public String status;
+
+        public Client(Bar bar, String id, int tb, int tc) {
+            this.bar = bar;
+            this.id = id;
+            this.tb = tb;
+            this.tc = tc;
+        }
+
+        private static void execute_task() {
+            float Count = 0, s = 0;
+            for (int j = 0; j < 100; j++) {
+                for (int i = 0; i < 200; i++) {
+                    Count++;
+                    s = s + Count;
                 }
+            }
+        }
 
-                bar.leave(id);
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    bar.enter(id);
 
-                long timeLeaveHome = (System.currentTimeMillis() + tc * 1000L);
+                    long timeLeaveBar = (System.currentTimeMillis() + tb * 1000L);
+
+                    while (System.currentTimeMillis() < timeLeaveBar) {
+                        execute_task();
+                    }
+
+                    bar.leave(id);
+
+                    long timeLeaveHome = (System.currentTimeMillis() + tc * 1000L);
 
 
-                while (System.currentTimeMillis() < timeLeaveHome) {
-                    execute_task();
+                    while (System.currentTimeMillis() < timeLeaveHome) {
+                        execute_task();
+                    }
+
+                    System.out.println("Cliente " + id + " foi para o bar.");
+                    home.getItems().remove(id);
+                    waiting.getItems().add(id);
+                    waiting.refresh();
+                    pub.refresh();
+                    home.refresh();
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-
-                System.out.println("Cliente " + id + " foi para o bar.");
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
 }
+
+

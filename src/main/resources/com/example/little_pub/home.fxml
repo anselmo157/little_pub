@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e5da0; -fx-pref-width: 1280; -fx-pref-height: 720;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.little_pub.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e5da0; -fx-pref-width: 1280; -fx-pref-height: 720;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.little_pub.Controller">
     <children>
-        <Pane layoutX="950.0" layoutY="83.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;" />
+        <Pane layoutX="950.0" layoutY="83.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;">
+         <children>
+            <ListView fx:id="pub" editable="true" prefHeight="450.0" prefWidth="300.0" />
+         </children></Pane>
         <Label layoutX="733.0" layoutY="36.0" text="CASA" textFill="#e21d1a">
             <font>
                 <Font name="Broadway" size="24.0" />
@@ -17,7 +23,7 @@
                 <Font name="Broadway" size="24.0" />
             </font>
         </Label>
-        <ListView layoutX="618.0" layoutY="577.0" prefHeight="129.0" prefWidth="634.0" />
+        <ListView fx:id="waiting" editable="true" layoutX="618.0" layoutY="577.0" orientation="HORIZONTAL" prefHeight="129.0" prefWidth="634.0" />
         <Label layoutX="905.0" layoutY="539.0" text="FILA" textFill="#e21d1a">
             <font>
                 <Font name="Broadway" size="24.0" />
@@ -29,16 +35,15 @@
         <TextField fx:id="homeTimeField" layoutX="334.0" layoutY="71.0" promptText="Tempo em Casa" />
         <Button fx:id="addBar" layoutX="334.0" layoutY="30.0" mnemonicParsing="false" onAction="#onConfigureBarClick" text="Criar o Bar" />
         <Button fx:id="addClient" layoutX="491.0" layoutY="71.0" mnemonicParsing="false" onAction="#onAddClientClick" text="Adicionar cliente" />
-        <Pane layoutX="617.0" layoutY="83.0" prefHeight="684.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;" />
+        <Pane layoutX="617.0" layoutY="83.0" prefHeight="684.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 300; -fx-pref-height: 450;">
+         <children>
+            <ListView fx:id="home" editable="true" prefHeight="450.0" prefWidth="300.0" />
+         </children></Pane>
       <Label layoutX="283.0" layoutY="148.0" text="LOG" textFill="#e21d1a">
          <font>
             <Font name="Broadway" size="24.0" />
          </font>
       </Label>
-      <ScrollPane layoutX="56.0" layoutY="188.0" prefHeight="345.0" prefWidth="500.0">
-         <content>
-            <VBox fx:id="itemHolder" prefHeight="342.0" prefWidth="496.0" />
-         </content>
-      </ScrollPane>
+      <ListView fx:id="log" editable="true" layoutX="61.0" layoutY="180.0" prefHeight="350.0" prefWidth="498.0" />
     </children>
 </Pane>
